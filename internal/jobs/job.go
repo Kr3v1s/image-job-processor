@@ -9,3 +9,4 @@ type Job struct {
 }
 
 var Store = make(map[string]*Job)
+var Queue = make(chan *Job, 100)
