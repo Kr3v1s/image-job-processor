@@ -39,8 +39,8 @@ func CreateJobHandler(w http.ResponseWriter, r *http.Request) {
 		URL:    req.ImageURL,
 	}
 
-	jobs.Store[jobID] = job
-	jobs.Queue <- job
+	jobs.JobStore.Save(job)
+	jobs.Queue <- jobID
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(job)
@@ -58,7 +58,7 @@ func GetJobHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	job, exists := jobs.Store[id]
+	job, exists := jobs.JobStore.Get(id)
 	if !exists {
 		http.Error(w, "job not found", http.StatusNotFound)
 		return

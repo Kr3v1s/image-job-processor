@@ -4,8 +4,8 @@ import (
 	"log"
 	"net/http"
 
-	jobs "image-job-processor/internal/jobs"
 	handler "image-job-processor/internal/http"
+	jobs "image-job-processor/internal/jobs"
 )
 
 func main() {
