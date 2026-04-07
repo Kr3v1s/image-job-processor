@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Job Processor</title>
+</head>
+<body>
+  <h2>Submit Image Job</h2>
+
+  <input id="url" placeholder="Image URL" size="50">
+  <button onclick="createJob()">Submit</button>
+
+  <h3>Job ID:</h3>
+  <div id="jobId"></div>
+
+  <button onclick="checkJob()">Check Status</button>
+
+  <pre id="result"></pre>
+
+  <script>
+    let currentJobId = "";
+
+    async function createJob() {
+      const url = document.getElementById("url").value;
+
+      const res = await fetch("/jobs", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ image_url: url })
+      });
+
+      const data = await res.json();
+      currentJobId = data.id || "";
+
+      document.getElementById("jobId").innerText = currentJobId;
+      document.getElementById("result").innerText = JSON.stringify(data, null, 2);
+    }
+
+    async function checkJob() {
+      if (!currentJobId) {
+        return;
+      }
+
+      const res = await fetch(`/jobs?id=${currentJobId}`);
+      const data = await res.json();
+
+      document.getElementById("result").innerText = JSON.stringify(data, null, 2);
+    }
+  </script>
+</body>
+</html>

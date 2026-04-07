@@ -13,6 +13,8 @@ func main() {
 		go jobs.StartWorker(i)
 	}
 
+	http.Handle("/ui/", http.StripPrefix("/ui/", http.FileServer(http.Dir("./internal/http/static"))))
+
 	http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("ok"))
 	})
