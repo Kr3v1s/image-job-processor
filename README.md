@@ -1,6 +1,6 @@
 # Image Job Processor
 
-Async image processing service built in Go using goroutines, channels, and a worker pool.
+Concurrent backend service built in Go that demonstrates worker pools, async processing, and fault tolerance.
 
 ## Overview
 
